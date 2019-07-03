@@ -35,6 +35,6 @@ router.use('/like', LikeRoutes)
 router.use('/noti', NotificationRoutes)
 router.use('/push', PushRoutes)
 router.use('/user', UserRoutes)
-router.use('/group',GroupRoutes)
+router.use('/group', GroupRoutes)
 
 export default router

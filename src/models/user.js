@@ -70,7 +70,7 @@ UserSchema.statics.getUserById = async id => {
   return User.findById(id)
 }
 
-UserSchema.statics.getNameById = async(id) => {
+UserSchema.statics.getNameById = async id => {
   return User.findById(id).select('profile.fullname')
 }
 

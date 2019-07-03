@@ -78,7 +78,7 @@ router.post('/', async (req, res) => {
     })
   } else {
     _.each(req.body.announce.to, to => {
-      notifyService(to, announce.message.title, announce.message.body)
+      notifyService(to, announce.message.title, announce.message.body, 'admin')
     })
     return res.status(202).send({
       status: 'success',

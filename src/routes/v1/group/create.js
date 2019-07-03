@@ -24,8 +24,7 @@ router.post('/', async (req, res) => {
         },
       },
     })
-  }
-  catch (err) {
+  } catch (err) {
     return res.status(400).send({
       status: 'failure',
       code: 701,

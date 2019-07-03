@@ -35,9 +35,7 @@ const AnnounceSchema = mongoose.Schema({
 })
 
 AnnounceSchema.statics.addAnnounce = async data => {
-  const Announce = mongoose.model('Announce', AnnounceSchema)
   const payload = new Announce(data)
-
   return payload.save()
 }
 

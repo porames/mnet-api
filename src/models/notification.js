@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+
 const NotificationSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -8,13 +9,13 @@ const NotificationSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    trim: true
+    trim: true,
   },
   groupRef: {
     type: String,
     required: true,
     trim: true,
-    unique: true
+    unique: true,
   }
 })
 

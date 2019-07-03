@@ -9,7 +9,7 @@ import notificationList from './notification/list'
 import notificationRemove from './notification/remove'
 import notificationSubscribe from './notification/subscribe'
 import notificationUnsubscribe from './notification/unsubscribe'
-
+import notificationPost from './notification/post'
 const router = express.Router()
 
 router.get('/', notificationIndex)
@@ -22,5 +22,6 @@ router.use('/list', notificationList)
 router.use('/remove', notificationRemove)
 router.use('/subscribe', notificationSubscribe)
 router.use('/unsubscribe', notificationUnsubscribe)
+router.use('/post', notificationPost)
 
 export default router

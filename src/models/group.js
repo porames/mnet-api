@@ -21,10 +21,9 @@ const GroupSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    unique: true
-  }
+    unique: true,
+  },
 })
-
 
 GroupSchema.statics.addGroup = async data => {
   const refCode = Math.random()
@@ -35,11 +34,11 @@ GroupSchema.statics.addGroup = async data => {
   return payload.save()
 }
 
-GroupSchema.statics.listUserGroups = async (id) => {
+GroupSchema.statics.listUserGroups = async id => {
   const results = await Group.find({
     member: {
-      $eq: id
-    }
+      $eq: id,
+    },
   }).select('name owner groupRef')
   return results
 }
@@ -51,24 +50,20 @@ GroupSchema.statics.getGroupByRef = async groupRef => {
 
 GroupSchema.statics.addUserToGroup = async (groupRef, userId) => {
   const groupId = await Group.getGroupByRef(groupRef)
-  
-  
+
   const dups = await Group.find({
     _id: groupId,
     member: {
-      $eq: userId
-    }
+      $eq: userId,
+    },
   })
-  
-  if (!_.isEmpty(dups)) {
-    throw TypeError("already in the group")
-  }
-  else {
-    return Group.findByIdAndUpdate(groupId, { $push: { member: userId } })
-  }
-  
-}
 
+  if (!_.isEmpty(dups)) {
+    throw TypeError('already in the group')
+  } else {
+    return Group.findByIdAndUpdate(groupId, {$push: {member: userId}})
+  }
+}
 
 const Group = mongoose.model('Group', GroupSchema)
 

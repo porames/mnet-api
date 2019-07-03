@@ -14,5 +14,5 @@ router.use(authenticationMiddleware)
 
 router.use('/create', groupCreate)
 router.use('/join', groupJoin)
-router.use('/list',groupList)
+router.use('/list', groupList)
 export default router
