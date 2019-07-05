@@ -11,13 +11,13 @@ const expo = new Expo()
 
 export default async function notifyService(to, title, body, from) {
   // if (NODE_ENV === 'production' || (NODE_ENV === 'production' && MOCHA_TEST === false)) {
-  const group = await Notification.findOne({_id: {$eq: to}})
+  const group = await Notification.findOne({ _id: { $eq: to } })
   if (group === null) {
     return false
   } else {
     const messages = []
-    const subscribers = await Subscriber.find({group: {$eq: group._id}})
-    console.log(subscribers)
+    const subscribers = await Subscriber.find({ group: { $eq: group._id } })
+    await Subscriber.where('group', group._id).updateOne({ $set: { newUpdate: true } })
     subscribers.map(subscriber => {
       if (Expo.isExpoPushToken(subscriber.user.token)) {
         messages.push({
@@ -25,7 +25,7 @@ export default async function notifyService(to, title, body, from) {
           sound: 'default',
           title: title,
           body: body,
-          data:{
+          data: {
             from: from
           }
         })

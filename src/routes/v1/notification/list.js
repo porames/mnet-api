@@ -42,22 +42,20 @@ router.get('/owned', async (req, res) => {
 router.get('/in', async (req, res) => {
   var userId = req.user.id
   try {
+    const payload = []
     const groups = await Subscriber.find({'user.id': {$eq: userId}}).sort({name: 1}) // groups that the user owned
+    
     for (var i = 0; i < groups.length; i++) {
       var groupId = groups[i].group
-      const matchedGroup = await Notification.findOne({_id: {$eq: groupId}}).select('name')
-      const groupName = matchedGroup.name
-      groups[i].name = groupName
+      const matchedGroup = await Notification.findOne({_id: {$eq: groupId}}).select('name type')
+      payload[i] = {
+        id: groupId,
+        name: matchedGroup.name,
+        type: matchedGroup.type,
+        newUpdate: groups[i].newUpdate
+      }
     }
-
-    const payload = []
-
-    fetchedGroup.map(group => {
-      payload.push({
-        id: group._id,
-        name: group.name,
-      })
-    })
+    console.log(payload)
 
     return res.status(200).send({
       status: 'success',

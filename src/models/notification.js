@@ -16,6 +16,11 @@ const NotificationSchema = new mongoose.Schema({
     required: true,
     trim: true,
     unique: true,
+  },
+  type: {
+    type: String,
+    required: true,
+    trime: true
   }
 })
 

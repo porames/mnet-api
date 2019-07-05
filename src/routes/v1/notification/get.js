@@ -53,7 +53,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/:page', async (req, res, next) => {
 	const { id } = req.params
-	const notificationGroup = await Notification.findById(id).select('groupRef name')
+	const notificationGroup = await Notification.findById(id).select('groupRef name type')
 	if (_.isEmpty(notificationGroup)) {
 		return res.status(404).send({
 			status: 'failure',
@@ -65,6 +65,7 @@ router.get('/:id/:page', async (req, res, next) => {
 	} else {
 		try {
 			const subscribers = await Subscriber.find({ group: { $eq: id } })
+			await Subscriber.where('user.id', req.user.id).updateOne({ $set: { newUpdate: false } })
 			const payload = []
 			subscribers.map(subscriber => {
 				payload.push({

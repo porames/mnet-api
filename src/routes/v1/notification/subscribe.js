@@ -2,7 +2,7 @@ import _ from 'lodash'
 import express from 'express'
 
 import Notification from '../../../models/notification'
-
+import Subscriber from '../../../models/subscriber'
 const router = express.Router()
 
 router.post('/', (req, res, next) => {
@@ -39,7 +39,7 @@ router.post('/', async (req, res, next) => {
   } else {
     try {
       var groupId = notificationGroup._id
-      const subscribe = await Subscriber.subscribe(groupId, payload.expoToken, payload.userId)
+      await Subscriber.subscribe(groupId, payload.expoToken, payload.userId)
       return res.status(200).send({
         status: 'success',
         code: 201,
@@ -48,6 +48,7 @@ router.post('/', async (req, res, next) => {
           data: {
             id: groupId,
             name: notificationGroup.name,
+            type: notificationGroup.type
           },
         },
       })
