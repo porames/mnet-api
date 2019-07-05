@@ -19,7 +19,7 @@ const NotificationSchema = new mongoose.Schema({
   }
 })
 
-NotificationSchema.statics.addGroup = function (data) {
+NotificationSchema.statics.addGroup = function(data) {
   data.groupRef = Math.random()
     .toString(36)
     .substr(2, 8)

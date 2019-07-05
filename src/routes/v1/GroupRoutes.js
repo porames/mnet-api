@@ -6,6 +6,7 @@ import groupCreate from './group/create'
 import groupIndex from './group/index'
 import groupJoin from './group/join'
 import groupList from './group/list'
+
 const router = express.Router()
 
 router.use('/', groupIndex)

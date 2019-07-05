@@ -106,13 +106,13 @@ router.get('/:id/:page', async (req, res, next) => {
 })
 
 router.all('/:id', (req, res) => {
-	res.status(405).send({
-		status: 'failure',
-		code: 705,
-		response: {
-			message: 'invalid method',
-		},
-	})
+  res.status(405).send({
+    status: 'failure',
+    code: 705,
+    response: {
+      message: 'invalid method',
+    },
+  })
 })
 
 export default router

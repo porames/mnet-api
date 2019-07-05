@@ -51,7 +51,8 @@ router.get('/in', async (req, res) => {
     }
 
     const payload = []
-    groups.map(group => {
+
+    fetchedGroup.map(group => {
       payload.push({
         id: group._id,
         name: group.name,

@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import express from 'express'
 
 import Notification from '../../../models/notification'
@@ -22,6 +21,7 @@ router.post('/', async (req, res) => {
   const payload = {
     name: req.body.groupName,
     owner: req.user.id,
+    type: req.body.type
   }
   console.log(payload)
   try {
@@ -35,6 +35,7 @@ router.post('/', async (req, res) => {
           groupRef: group.groupRef,
           name: group.name,
           id: group.id,
+          type: group.type
         },
       },
     })

@@ -2,7 +2,6 @@ import _ from 'lodash'
 import express from 'express'
 
 import Notification from '../../../models/notification'
-import Subscriber from '../../../models/subscriber'
 
 const router = express.Router()
 
