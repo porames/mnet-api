@@ -21,6 +21,12 @@ const NotificationSchema = new mongoose.Schema({
     type: String,
     required: true,
     trime: true
+  },
+  avatar: {
+    type: String,
+    required: true,
+    trim: true,
+    default: '001'
   }
 })
 
