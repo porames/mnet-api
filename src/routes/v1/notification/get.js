@@ -53,7 +53,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/:page', async (req, res, next) => {
 	const { id } = req.params
-	const notificationGroup = await Notification.findById(id).select('groupRef name type')
+	const notificationGroup = await Notification.findById(id).select('groupRef name type avatar')
 	if (_.isEmpty(notificationGroup)) {
 		return res.status(404).send({
 			status: 'failure',
@@ -65,7 +65,8 @@ router.get('/:id/:page', async (req, res, next) => {
 	} else {
 		try {
 			const subscribers = await Subscriber.find({ group: { $eq: id } })
-			await Subscriber.where('user.id', req.user.id).updateOne({ $set: { newUpdate: false } })
+			await Subscriber.findOneAndUpdate({ $and: [{ 'user.id': req.user.id }, { group: { $eq: id } }] }, { $set: { newUpdate: false } })
+			
 			const payload = []
 			subscribers.map(subscriber => {
 				payload.push({
@@ -88,6 +89,7 @@ router.get('/:id/:page', async (req, res, next) => {
 						subscribers: payload,
 						groupRef: notificationGroup.groupRef,
 						name: notificationGroup.name,
+						avatar: notificationGroup.avatar,
 						posts: Posts,
 					},
 				},
@@ -107,13 +109,13 @@ router.get('/:id/:page', async (req, res, next) => {
 })
 
 router.all('/:id', (req, res) => {
-  res.status(405).send({
-    status: 'failure',
-    code: 705,
-    response: {
-      message: 'invalid method',
-    },
-  })
+	res.status(405).send({
+		status: 'failure',
+		code: 705,
+		response: {
+			message: 'invalid method',
+		},
+	})
 })
 
 export default router

@@ -36,12 +36,13 @@ router.post('/', async (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
+  
   if (
     !req.body.announce ||
-    !req.body.announce.to ||
     !req.body.announce.message ||
     !req.body.announce.message.title ||
-    !req.body.announce.message.body
+    !req.body.announce.message.body ||
+    !req.body.announce.to
   ) {
     res.status(400).send({
       status: 'failure',
@@ -62,10 +63,9 @@ router.post('/', async (req, res) => {
       title: req.body.announce.message.title,
       body: req.body.announce.message.body,
     },
-    from: req.user.id,
-    to: req.body.announce.to,
+    from: req.user.id
   }
-
+  const to = req.body.announce.to
   let announce = await Announce.addAnnounce(payload)
 
   if (_.isEmpty(announce)) {
@@ -77,9 +77,7 @@ router.post('/', async (req, res) => {
       },
     })
   } else {
-    _.each(req.body.announce.to, to => {
-      notifyService(to, announce.message.title, announce.message.body, 'admin')
-    })
+    notifyService(to, announce.message.title, announce.message.body, req.user.id)
     return res.status(202).send({
       status: 'success',
       code: 202,
@@ -90,8 +88,7 @@ router.post('/', async (req, res) => {
             id: announce._id,
             date: announce.date,
             message: announce.message,
-            from: announce.from,
-            to: announce.to,
+            from: announce.from
           },
         },
       },

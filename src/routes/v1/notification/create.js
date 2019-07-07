@@ -21,7 +21,8 @@ router.post('/', async (req, res) => {
   const payload = {
     name: req.body.groupName,
     owner: req.user.id,
-    type: req.body.type
+    type: req.body.type,
+    avatar: req.body.avatar
   }
   console.log(payload)
   try {
@@ -35,7 +36,8 @@ router.post('/', async (req, res) => {
           groupRef: group.groupRef,
           name: group.name,
           id: group.id,
-          type: group.type
+          type: group.type,
+          avatar: group.avatar
         },
       },
     })
