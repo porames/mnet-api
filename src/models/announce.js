@@ -22,11 +22,6 @@ const AnnounceSchema = mongoose.Schema({
     type: Array,
     required: true,
   },
-  to: {
-    type: Array,
-    required: true,
-    default: [],
-  },
   like: {
     type: Array,
     required: true,
