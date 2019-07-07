@@ -40,7 +40,7 @@ export default async function notifyService(to, title, body, from) {
       messages.push({
         to: subscribers[i].user.token,
         sound: 'default',
-        title: title,
+        title: `${group.name}: ${title}`,
         body: body,
         data: {
           from: notiFrom
