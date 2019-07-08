@@ -24,6 +24,6 @@ router.use('/remove', notificationRemove)
 router.use('/subscribe', notificationSubscribe)
 router.use('/unsubscribe', notificationUnsubscribe)
 router.use('/post', notificationPost)
-router.use('/options',notificationOptions)
+router.use('/options', notificationOptions)
 
 export default router

@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
     name: req.body.groupName,
     owner: req.user.id,
     type: req.body.type,
-    avatar: req.body.avatar
+    avatar: req.body.avatar,
   }
   console.log(payload)
   try {
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
           name: group.name,
           id: group.id,
           type: group.type,
-          avatar: group.avatar
+          avatar: group.avatar,
         },
       },
     })

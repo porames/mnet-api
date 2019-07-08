@@ -4,7 +4,6 @@ import notifyService from '../../../services/notify'
 import Post from '../../../models/posts'
 import Notification from '../../../models/notification'
 
-
 const router = express.Router()
 
 router.post('/', (req, res, next) => {
@@ -45,10 +44,15 @@ router.post('/', async (req, res) => {
             title: req.body.announce.message.title,
             body: req.body.announce.message.body,
           },
-          groupId: req.body.announce.groupId
+          groupId: req.body.announce.groupId,
         })
         await newPost.save()
-        await notifyService(req.body.announce.groupId, req.body.announce.message.title, req.body.announce.message.body, req.body.announce.groupId)
+        await notifyService(
+          req.body.announce.groupId,
+          req.body.announce.message.title,
+          req.body.announce.message.body,
+          req.body.announce.groupId,
+        )
         return res.status(200).send({
           status: 'success',
           code: 201,

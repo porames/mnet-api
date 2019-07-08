@@ -5,8 +5,7 @@ import User from '../../../models/user'
 
 const router = express.Router()
 
-router.post('/', (req, res, next) => 
-{
+router.post('/', (req, res, next) => {
   if (
     !req.body.authentication ||
     !req.body.authentication.user ||

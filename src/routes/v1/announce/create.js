@@ -36,7 +36,6 @@ router.post('/', async (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-  
   if (
     !req.body.announce ||
     !req.body.announce.message ||
@@ -63,7 +62,7 @@ router.post('/', async (req, res) => {
       title: req.body.announce.message.title,
       body: req.body.announce.message.body,
     },
-    from: req.user.id
+    from: req.user.id,
   }
   const to = req.body.announce.to
   let announce = await Announce.addAnnounce(payload)
@@ -88,7 +87,7 @@ router.post('/', async (req, res) => {
             id: announce._id,
             date: announce.date,
             message: announce.message,
-            from: announce.from
+            from: announce.from,
           },
         },
       },

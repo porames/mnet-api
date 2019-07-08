@@ -48,7 +48,7 @@ router.post('/', async (req, res, next) => {
           data: {
             id: groupId,
             name: notificationGroup.name,
-            type: notificationGroup.type
+            type: notificationGroup.type,
           },
         },
       })

@@ -18,5 +18,5 @@ router.use('/create', announceCreate)
 router.use('/get', announceGet)
 router.use('/list', announceList)
 router.use('/remove', announceRemove)
-router.use('/groups',announceGroups)
+router.use('/groups', announceGroups)
 export default router
