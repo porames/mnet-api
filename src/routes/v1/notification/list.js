@@ -86,13 +86,15 @@ router.get('/owned/all', async (req, res) => {
 
 router.get('/in', async (req, res) => {
   var userId = req.user.id
+
   try {
     var payload = []
     const groups = await Subscriber.find({'user.id': {$eq: userId}})
       .sort({newUpdate: -1, name: 1})
       .limit(5) // groups that the user owned
-    for (var i = 0; i < groups.length; i++) {
-      var groupId = groups[i].group
+    console.log(groups)
+    for (const group in groups) {
+      var groupId = group.group
       const matchedGroup = await Notification.findOne({$and: [{_id: {$eq: groupId}}, {type: {$ne: 'admin'}}]}).select(
         'name type avatar',
       )
@@ -101,7 +103,7 @@ router.get('/in', async (req, res) => {
           id: groupId,
           name: matchedGroup.name,
           type: matchedGroup.type,
-          newUpdate: groups[i].newUpdate,
+          newUpdate: matchedGroup.newUpdate,
           avatar: matchedGroup.avatar,
         })
       }
