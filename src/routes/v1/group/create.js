@@ -1,8 +1,8 @@
 import express from 'express'
-
 import Group from '../../../models/group'
 
 const router = express.Router()
+
 
 router.post('/', async (req, res) => {
   const payload = {

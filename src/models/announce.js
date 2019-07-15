@@ -17,6 +17,10 @@ const AnnounceSchema = mongoose.Schema({
       required: true,
       trim: true,
     },
+    media:{
+      data: Buffer,
+      type: String
+    }
   },
   from: {
     type: Array,
