@@ -36,7 +36,7 @@ const server = express()
 
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({extended: true}))
-
+server.use('/bucket',express.static('bucket'))
 server.use(cors())
 
 server.use(passport.initialize())
