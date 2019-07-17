@@ -42,6 +42,7 @@ router.post('/', upload.single('media'), async (req, res, next) => {
 			})
 		} else {
 			const data = JSON.parse(req.body.data)
+			
 			var payload = {
 				date: moment(),
 				message: {
@@ -53,11 +54,10 @@ router.post('/', upload.single('media'), async (req, res, next) => {
 			if(!_.isEmpty(req.file)){
 				payload.message.media = req.file.path.replace(/\\/g, "/")
 			}
-			if(!_.isEmpty(data.announce.attachments)){
+			if(!_.isEmpty(data.announce.message.attachments)){				
 				payload.message.attachments = data.announce.message.attachments
 			}
-			console.log(payload)
-			
+
 			const to = data.announce.to
 			let announce = await Announce.addAnnounce(payload)
 
