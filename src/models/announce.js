@@ -20,6 +20,9 @@ const AnnounceSchema = mongoose.Schema({
     media:{
       data: Buffer,
       type: String
+    },
+    attachments:{
+      type: Array
     }
   },
   from: {
