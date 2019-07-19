@@ -7,6 +7,8 @@ import multer from 'multer'
 import Announce from '../../../models/announce'
 import User from '../../../models/user'
 import crypto from 'crypto'
+import sharp from 'sharp'
+import Jimp from 'jimp'
 
 const router = express.Router()
 const storage = multer.diskStorage({
@@ -18,7 +20,22 @@ const storage = multer.diskStorage({
 		cb(null, generateName + path.extname(file.originalname))
 	}
 })
-const upload = multer({ storage })
+const upload = multer({
+	storage: storage,
+	fileFilter: function (req, file, cb) {
+		const ext = path.extname(file.originalname)
+		if (ext === '.png' || ext === '.jpg' || ext === '.jpeg') {
+			cb(null, true)
+		}
+		else {
+			return cb(new Error('not an image'))
+		}
+	},
+	limits: {
+		fileSize: 2 * 1024 * 1024
+	}
+
+})
 
 
 router.post('/', upload.single('media'), async (req, res, next) => {
@@ -42,7 +59,7 @@ router.post('/', upload.single('media'), async (req, res, next) => {
 			})
 		} else {
 			const data = JSON.parse(req.body.data)
-			
+
 			var payload = {
 				date: moment(),
 				message: {
@@ -51,10 +68,16 @@ router.post('/', upload.single('media'), async (req, res, next) => {
 				},
 				from: req.user.id
 			}
-			if(!_.isEmpty(req.file)){
-				payload.message.media = req.file.path.replace(/\\/g, "/")
+			if (!_.isEmpty(req.file)) {
+				const filename = req.file.filename.split('.')[0]
+				Jimp.read(`./bucket/${req.file.filename}`).then(img => {
+
+					img.quality(60).write(`./bucket/compressed/${filename}.jpg`)
+				})
+				payload.message.media = `bucket/compressed/${filename}.jpg`
+
 			}
-			if(!_.isEmpty(data.announce.message.attachments)){				
+			if (!_.isEmpty(data.announce.message.attachments)) {
 				payload.message.attachments = data.announce.message.attachments
 			}
 

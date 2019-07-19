@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import express from 'express'
-
 import Announce from '../../../models/announce'
 import User from '../../../models/user'
+import fs from 'fs'
 
 const router = express.Router()
 
@@ -33,6 +33,10 @@ router.delete('/:id', async (req, res, next) => {
 })
 
 router.delete('/:id', async (req, res) => {
+  const post = await Announce.findById(req.params.id)
+  if(!_.isEmpty(post.message.media)){
+    fs.unlinkSync(`./${post.message.media}`)
+  }
   await Announce.findByIdAndDelete(req.params.id)
 
   return res.status(200).send({

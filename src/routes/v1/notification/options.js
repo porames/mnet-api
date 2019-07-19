@@ -5,6 +5,45 @@ import Subscriber from '../../../models/subscriber'
 
 const router = express.Router()
 
+router.delete('/leave', async (req, res) => {
+  const groupId = req.body.groupId
+  if (_.isEmpty(req.body.groupId)) {
+    return res.status(400).send({
+      status: 'failure',
+      code: 702,
+      response: {
+        message: 'provided data is not enough',
+      },
+    })
+  } else {
+    try {
+      const test = await Subscriber.findOneAndDelete({
+        $and: [
+          { 'user.id': { $eq: req.user.id } },
+          { group: { $eq: groupId } }
+        ]
+      })
+      console.log(test)
+      return res.status(200).send({
+        status: 'success',
+        code: 201,
+        response: {
+          message: 'bye bye, now',
+        },
+      })
+    } catch (err) {
+      return res.status(400).send({
+        status: 'failure',
+        code: 701,
+        response: {
+          message: 'unexpected error',
+          data: err,
+        },
+      })
+    }
+  }
+})
+
 router.delete('/delete', async (req, res) => {
   if (_.isEmpty(req.body.groupId)) {
     return res.status(400).send({
@@ -22,7 +61,7 @@ router.delete('/delete', async (req, res) => {
       console.log([owner, req.user.id])
       if (_.isEqual(owner, req.user.id)) {
         await Notification.findByIdAndDelete(groupId)
-        await Subscriber.deleteMany({group: {$eq: groupId}})
+        await Subscriber.deleteMany({ group: { $eq: groupId } })
         return res.status(200).send({
           status: 'success',
           code: 201,
